@@ -4,6 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { SubmitButton } from "./submit-button";
 import { login, signup } from "./actions";
+import Image from "next/image";
 
 export default function Login({
   searchParams,
@@ -52,6 +53,28 @@ export default function Login({
     return redirect("/login?message=Check email to continue sign in process");
   };
 
+  const loginGoogle = async () => {
+    'use server';
+
+    // 1. Create a Supabase client
+    const supabase = createClient();
+    const origin = headers().get('origin');
+    // 2. Sign in with GitHub
+    const { error, data } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${origin}/auth/callback`,
+      },
+    });
+
+    if (error) {
+      console.log(error);
+    } else {
+      return redirect(data.url);
+    }
+    // 3. Redirect to landing page
+  };
+
   return (
     <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
       <Link
@@ -74,6 +97,23 @@ export default function Login({
         </svg>{" "}
         Back
       </Link>
+
+      <h1 className="text-3xl font-bold">Google auth down here</h1>
+
+      <form
+      className="flex-1 flex justify-center items-center"
+    >
+      <button className="hover:bg-gray-400 p-8 rounded-xl" formAction={loginGoogle}>
+        <Image
+          className="mx-auto mb-3"
+          src="/google-mark.png"
+          width={100}
+          height={100}
+          alt="Google logo"
+        />
+        Sign in with Google
+      </button>
+    </form>
 
       <h1 className="text-3xl font-bold">Supabase Next.js Starter down here</h1>
 

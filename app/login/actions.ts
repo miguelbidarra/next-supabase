@@ -5,6 +5,28 @@ import { redirect } from 'next/navigation'
 
 import { createClient } from '@/utils/supabase/server'
 
+const signIn = async () => {
+    'use server';
+
+    // 1. Create a Supabase client
+    const supabase = createClient();
+    const origin = headers().get('origin');
+    // 2. Sign in with GitHub
+    const { error, data } = await supabase.auth.signInWithOAuth({
+      provider: 'github',
+      options: {
+        redirectTo: `${origin}/auth/callback`,
+      },
+    });
+
+    if (error) {
+      console.log(error);
+    } else {
+      return redirect(data.url);
+    }
+    // 3. Redirect to landing page
+  };
+
 export async function login(formData: FormData) {
   const supabase = createClient()
 

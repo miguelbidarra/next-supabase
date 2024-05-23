@@ -54,14 +54,14 @@ export default function Login({
   };
 
   const loginGoogle = async () => {
-    'use server';
+    "use server";
 
     // 1. Create a Supabase client
     const supabase = createClient();
-    const origin = headers().get('origin');
-    // 2. Sign in with GitHub
+    const origin = headers().get("origin");
+    // 2. Sign in with Google
     const { error, data } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
+      provider: "google",
       options: {
         redirectTo: `${origin}/auth/callback`,
       },
@@ -100,20 +100,21 @@ export default function Login({
 
       <h1 className="text-3xl font-bold">Google auth down here</h1>
 
-      <form
-      className="flex-1 flex justify-center items-center"
-    >
-      <button className="hover:bg-gray-400 p-8 rounded-xl" formAction={loginGoogle}>
-        <Image
-          className="mx-auto mb-3"
-          src="/google-mark.png"
-          width={100}
-          height={100}
-          alt="Google logo"
-        />
-        Sign in with Google
-      </button>
-    </form>
+      <form className="flex-1 flex justify-center items-center">
+        <button
+          className="hover:bg-gray-400 p-8 rounded-xl"
+          formAction={loginGoogle}
+        >
+          <Image
+            className="mx-auto mb-3"
+            src="/google-mark.png"
+            width={100}
+            height={100}
+            alt="Google logo"
+          />
+          Sign in with Google
+        </button>
+      </form>
 
       <h1 className="text-3xl font-bold">Supabase Next.js Starter down here</h1>
 

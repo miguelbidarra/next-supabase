@@ -1,11 +1,20 @@
 {
+  "name": "supabase-nextjs",
+  "version": "1.0.0",
+  "description": "A Next.js project with Supabase",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "tsc-w & NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "db": "npx prisma db pull",
+    "db:migrate": "npx prisma migrate dev",
+    "db:push": "npx prisma db push",
+    "db:migrate:reset": "npx prisma migrate reset --force",
+    "db:studio": "npx prisma studio"
   },
   "dependencies": {
+    "@prisma/client": "^5.14.0",
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
     "autoprefixer": "10.4.17",
@@ -22,6 +31,8 @@
     "@types/react": "18.2.48",
     "@types/react-dom": "18.2.18",
     "daisyui": "^4.11.1",
-    "encoding": "^0.1.13"
+    "encoding": "^0.1.13",
+    "prisma": "^5.14.0",
+    "tsc": "^2.0.4"
   }
 }
